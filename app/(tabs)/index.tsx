@@ -19,9 +19,11 @@ export default function MapScreen() {
   // Referencia al componente MapView, para poder manipular el mapa
   const map_reference = React.useRef<MapView>(null);
 
+  //Modal
   const [visible, setVisible] = React.useState(false);
   const [selected, setSelected] = React.useState<modal | null>(null);
 
+  ///////////////////////////////////////////////////////////////////
   // --- buscador ---
   const [query, setQuery] = React.useState("");
   const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -32,6 +34,8 @@ export default function MapScreen() {
     return data.filter(l => normalize(l.name).includes(q) || normalize(l.type).includes(q));
   }, [data, query]);
   // -----------------
+  ///////////////////////////////////////////////////////////////////
+
 
   //Region inicial del mapa (Santiago, Chile)
   const region = {
@@ -62,6 +66,7 @@ export default function MapScreen() {
   /*el [] nos señala que se ejecutara una vez al iniciar*/  
   []);
 
+  //Buscador
   // Ajuste del mapa cuando se filtra (no reemplaza lo anterior)
   useEffect(() => {
     if (!map_reference.current || filtered.length === 0) return;
@@ -71,7 +76,8 @@ export default function MapScreen() {
       animated: true,
     });
   }, [filtered]);
-
+  /////////////////////////////////////////////
+  
   const abririd = useCallback((id:string) =>{
     const loc = (locales as modal[]).find(x => x.id === id) || null;
     if (loc) {setSelected (loc); setVisible(true)}
